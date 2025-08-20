@@ -20,7 +20,7 @@ export const signInRequest = async ({email, password}) => {
             email,
             password
         });
-        return response;
+        return response?.data;
     } catch (error) {
         console.log('Error at signup api:', error);
         throw error?.reponse?.data;

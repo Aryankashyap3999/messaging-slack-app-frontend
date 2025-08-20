@@ -42,7 +42,7 @@ export const SignupCard = ({
                             className='bg-destructive/15 p-4 rounded-md flex items-center gap-x-2 text-destructive mb-6 '
                         >
                             <TriangleAlert className='size-5' />
-                            <p>{validationError?.message}</p>
+                            <p>{error.message}</p>
                         </div>
                     )}
 
@@ -53,7 +53,7 @@ export const SignupCard = ({
                         >
                             <div className='flex gap-x-2 justify-between'>
                                 <FaCheck className='size-5'/>
-                                <div> Congratuations, succesfully signed In. </div>
+                                <div> Congratuations, succesfully signed Up. </div>
                                 <LucideLoader2 className='animate-spin' />
                             </div>
                             
