@@ -1,0 +1,64 @@
+import { Separator } from '@radix-ui/react-separator';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+
+export const SigninCard = () => {
+
+    const navigate = useNavigate();
+
+    const [signinForm, setSigninForm] = useState({
+        email: '',
+        password: '',
+    });
+
+    return (
+        <Card className='w-full h-full '>
+            <CardHeader>
+                <CardTitle>Sign In</CardTitle>
+                <CardDescription>Sign in to access your account</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form className='space-y-4'>
+                    <Input
+                        placeholder='email'
+                        required
+                        onChange={(e) => setSigninForm({...signinForm, email: e.target.value})}
+                        type='email'
+                        disabled={false}
+                    />
+                    <Input
+                        placeholder='password'
+                        required
+                        onChange={(e) => setSigninForm({...signinForm, password: e.target.value})}
+                        type='password'
+                        disabled={false}
+                    />
+                    <Button
+                        className='w-full '
+                        size='lg'
+                        disabled={false}
+                        type='submit'
+                    >
+                    Sign In
+                </Button>
+
+                </form>
+                
+                <Separator classNmae='my-3' />
+                <p>
+                    If don't have account? {' '}
+                    <span 
+                        className='text-sky-600 hover:underlined cursor-pointer'
+                        onClick={() => navigate('/auth/signup')}
+                    >
+                        Sign Up
+                    </span>
+                </p>
+            </CardContent>
+        </Card>
+    );
+};

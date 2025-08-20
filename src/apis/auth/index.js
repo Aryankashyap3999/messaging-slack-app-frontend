@@ -1,0 +1,28 @@
+import axios from '@/config/axiosConfig';
+
+export const signUpRequest = async ({email, password, username}) => {
+    try {
+        const response = await axios.post('/users/signup', {
+            email,
+            password,
+            username
+        });
+        return response;
+    } catch (error) {
+        console.log('Error at signup api:', error);
+        throw error?.reponse?.data;
+    }
+};
+
+export const signInRequest = async ({email, password}) => {
+    try {
+        const response = await axios.post('/users/signin', {
+            email,
+            password
+        });
+        return response;
+    } catch (error) {
+        console.log('Error at signup api:', error);
+        throw error?.reponse?.data;
+    }
+}; 
