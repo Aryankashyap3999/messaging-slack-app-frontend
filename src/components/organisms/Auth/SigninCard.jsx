@@ -20,6 +20,10 @@ export const SigninCard = ({
 
     const navigate = useNavigate();
 
+    function handleForgetPasswordClik() {
+        navigate('/forget-password');
+    }
+
 
     return (
         <Card className='w-full h-full '>
@@ -87,6 +91,10 @@ export const SigninCard = ({
                 </Button>
 
                 </form>
+
+                <Separator className='my-3' />
+
+                <span className='text-sky-700 hover:underlined cursor-pointer' onClick={() => handleForgetPasswordClik()}>Forget Password</span>
                 
                 <Separator className='my-3' />
                 <p>
