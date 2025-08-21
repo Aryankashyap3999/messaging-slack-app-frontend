@@ -7,7 +7,7 @@ export const signUpRequest = async ({email, password, username}) => {
             password,
             username
         });
-        return response;
+        return response?.data;
     } catch (error) {
         console.log('Error at signup api:', error);
         throw error?.reponse?.data;
