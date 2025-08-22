@@ -1,14 +1,21 @@
 
-import { LogOutIcon } from 'lucide-react';
+import { LogOutIcon, PencilIcon, Settings, Settings2Icon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/hooks/context/useAuth';
+import { useCreateWorkspaceModal } from '@/hooks/context/useCreaateWorkspaceModal';
 
 export const UserButton = () => {
     const { auth, logout } = useAuth();
     console.log('User is: ', auth?.user);
+
+    const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
+
+    function handleClick () {
+        setOpenCreateWorkspaceModal(true);
+    }
 
     async function handleLogout () {
         await logout();
@@ -24,7 +31,12 @@ export const UserButton = () => {
             </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
+                <DropdownMenuItem onClick={handleClick}>
+                    <PencilIcon className='size-4 mr-2 h-10'/>
+                    Create Wprkspace
+                </DropdownMenuItem>
                 <DropdownMenuItem>
+                    <Settings className='size-4 mr-2 h-10'/>
                     Setting
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
