@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+ 
 import { InfoIcon, LucideLoader2, SearchIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
