@@ -1,32 +1,31 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { LucideLoader2, SearchIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { InfoIcon, LucideLoader2, SearchIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
 
-export const WorkspaceOptions = () => {
+export const WorkspaceNavbar = () => {
 
     const { workspaceId } = useParams();
 
-    const { isLoading, workspacesDetail } = useGetWorkspaceById(workspaceId);
+    const { isFetching, workspacesDetail } = useGetWorkspaceById(workspaceId);
 
-    if(isLoading) {
+    if(isFetching) {
         return <LucideLoader2 className='animate-spin mi-2'/>;
     }
-
-    useEffect(() => {
-        console.log('workspace id is: ', workspaceId);
-        console.log('Workspace is: ', workspacesDetail);
-    }, [workspacesDetail, workspaceId]);
-
 
 
     return (
         <nav
             className='flex items-center justify-center h-10 p-1.5 bg-[#481349]'
         >
+
+            <div
+                className='flex-1'
+            >
+
+            </div>
             <div>
                 <Button
                 size='sm'
@@ -38,6 +37,17 @@ export const WorkspaceOptions = () => {
                     >
                         Search {workspacesDetail?.name || 'workspace'}
                     </span>
+                </Button>
+            </div>
+
+            <div
+                className='ml-auto flex-1 flex items-center justify-end'
+            >
+                <Button
+                    variant='transparent'
+                    size='iconSm'
+                >
+                    <InfoIcon className='size-5 text-white'/>
                 </Button>
             </div>
         </nav>
