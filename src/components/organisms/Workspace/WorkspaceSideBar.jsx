@@ -33,7 +33,7 @@ export const WorkspaceSidebar = () => {
             />
 
             <div
-                className='flex flex-col items-center justify-center mt-auto gap-y-1 mb-[5 vh]'
+                className='flex flex-col items-center justify-center mt-auto gap-y-1 mb-[5vh]'
             >
                 <UserButton />
             </div>
