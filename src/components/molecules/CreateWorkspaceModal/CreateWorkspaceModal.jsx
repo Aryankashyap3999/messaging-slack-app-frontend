@@ -25,7 +25,7 @@ export const CreateWorkspaceModal = () => {
     async function handleFormSubmit (e) {
         try {
             e.preventDefault();
-            const response = await createWorkspaceMutation({name: workspaceName});
+            const response = await createWorkspaceMutation({ name: workspaceName });
             setOpenCreateWorkspaceModal(false);
             console.log('Workspace is created ', response);
             navigate(`workspace/${response._id}`);

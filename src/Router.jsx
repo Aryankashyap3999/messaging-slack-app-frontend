@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import { Home } from './pages/Home/Home';
 import { Notfound } from './pages/Notfound/Notfound';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
+import { WorkspaceLayout } from './pages/Workspace/Layout';
 
 export const Router = () => {
     return (
@@ -15,6 +16,7 @@ export const Router = () => {
           <Route path='/auth/signup'  element={<Auth><SignupContainer/></Auth>} />
           <Route path='/auth/signin'  element={<Auth><SigninContainer/></Auth>} />
           <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
+          <Route path='/workspace/:workspaceId' element={<ProtectedRoute><WorkspaceLayout/></ProtectedRoute>} />
           <Route path='/forget-password' element={<ForgotPassword />} />
           <Route path='/reset-password/:token' element={<ResetPassword/>} />
           <Route path='/*' element={<Notfound/>} />

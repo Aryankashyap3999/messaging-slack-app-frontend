@@ -122,3 +122,7 @@
 @theme {
       --slack: #5c3B58;
     }
+
+@theme {
+  --dark: #3d273b
+}
