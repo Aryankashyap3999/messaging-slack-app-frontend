@@ -1,4 +1,5 @@
 import { DialogTitle } from '@radix-ui/react-dialog';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +12,8 @@ import { useCreateWorkspaceModal } from '@/hooks/context/useCreaateWorkspaceModa
 export const CreateWorkspaceModal = () => {
     const { openCreateWorkspaceModal, setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
     const { createWorkspaceMutation, isPending } = useCreateWorkspace();
+
+    const queryClient = useQueryClient();
 
     const [workspaceName, setWorkspaceName] = useState('');
     const navigate = useNavigate();
@@ -26,6 +29,7 @@ export const CreateWorkspaceModal = () => {
             setOpenCreateWorkspaceModal(false);
             console.log('Workspace is created', response);
             navigate(`/workspace/${response._id}`);
+            queryClient.invalidateQueries('workspaces');
         } catch (error) {
             console.log('Workspace is not created', error);
         }
