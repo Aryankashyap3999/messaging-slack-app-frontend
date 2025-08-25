@@ -1,5 +1,5 @@
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -9,30 +9,31 @@ import { useCreateWorkspace } from '@/hooks/apis/workspaces/useCreateWorkspaces'
 import { useCreateWorkspaceModal } from '@/hooks/context/useCreaateWorkspaceModal';
 
 export const CreateWorkspaceModal = () => {
-
     const { openCreateWorkspaceModal, setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
+    const { createWorkspaceMutation, isPending } = useCreateWorkspace();
 
-    const {isPending, createWorkspaceMutation} = useCreateWorkspace();
-
-    const [workspaceName, setWorkspaceName] = useState();
-
+    const [workspaceName, setWorkspaceName] = useState('');
     const navigate = useNavigate();
 
     function handleClose () {
         setOpenCreateWorkspaceModal(false);
     }
 
-    async function handleFormSubmit (e) {
+    async function handleFormSubmit(e) {
+        e.preventDefault();
         try {
-            e.preventDefault();
             const response = await createWorkspaceMutation({ name: workspaceName });
             setOpenCreateWorkspaceModal(false);
-            console.log('Workspace is created ', response);
-            navigate(`workspace/${response._id}`);
+            console.log('Workspace is created', response);
+            navigate(`/workspace/${response._id}`);
         } catch (error) {
-            console.log('workspace is not created', error);
+            console.log('Workspace is not created', error);
         }
-    } 
+    }
+
+    useEffect(() => {
+        console.log('openCreateWorkspaceModal:', openCreateWorkspaceModal);
+    }, [openCreateWorkspaceModal]);
 
     return (
         <Dialog
@@ -46,29 +47,27 @@ export const CreateWorkspaceModal = () => {
                     </DialogTitle>
                 </DialogHeader>
 
-                <form onSubmit={(e) =>handleFormSubmit(e)}>
+                <form onSubmit={handleFormSubmit}>
                     <Input 
                         required
                         disabled={isPending}
                         minLength={3}
-                        placeholder='Enter the workspace name eg. DevWorkspace'
+                        placeholder="Enter the workspace name eg. DevWorkspace"
                         value={workspaceName}
                         onChange={(e) => setWorkspaceName(e.target.value)}
                     />
 
                     <div>
                         <Button
-                            className='flex justify-center mt-5'
+                            type="submit"
+                            className="flex justify-center mt-5"
                             disabled={isPending}
                         >
-                            Create Workspace
+                            {isPending ? 'Creating...' : 'Create Workspace'}
                         </Button>
                     </div>
                 </form>
-
             </DialogContent>
-
         </Dialog>
     );
-
 };

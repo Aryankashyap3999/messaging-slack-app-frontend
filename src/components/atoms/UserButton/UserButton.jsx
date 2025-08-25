@@ -11,10 +11,11 @@ export const UserButton = () => {
     const { auth, logout } = useAuth();
     console.log('User is: ', auth?.user);
 
-    const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
+    const { setOpenCreateWorkspaceModal, openCreateWorkspaceModal } = useCreateWorkspaceModal();
 
     function handleClick () {
         setOpenCreateWorkspaceModal(true);
+        console.log('openCreateWorkspaceModal is ', openCreateWorkspaceModal);
     }
 
     async function handleLogout () {
@@ -31,7 +32,7 @@ export const UserButton = () => {
             </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem onClick={handleClick}>
+                <DropdownMenuItem onClick={() => handleClick()}>
                     <PencilIcon className='size-4 mr-2 h-10'/>
                     Create Wprkspace
                 </DropdownMenuItem>
