@@ -3,7 +3,9 @@ import { WorkspacePreferencesModal } from '@/components/molecules/Workspace/Work
 
 export const Modals = () => {
     return (
-        <CreateWorkspaceModal/>,
-        <WorkspacePreferencesModal/>
+        <>
+            <CreateWorkspaceModal/>
+            <WorkspacePreferencesModal/>
+        </>
     );
 };
