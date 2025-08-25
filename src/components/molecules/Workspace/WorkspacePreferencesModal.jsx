@@ -11,11 +11,12 @@ import { useDeleteWorkspace } from '@/hooks/apis/workspaces/useDeleteWorkspace';
 import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
 import { useUpdateWorkspace } from '@/hooks/apis/workspaces/useUpdateWorkspace';
 import { useWorkspacePreferncesModel } from '@/hooks/context/useWorkspacePreferencesModal';
+import { useConfirm } from '@/hooks/useConfirm';
 
 export const WorkspacePreferencesModal = () => {
 
     const queryClient = useQueryClient(); 
-    const {intialValue, openPreferences, setOpenPreferences, workspace} = useWorkspacePreferncesModel();
+    const { intialValue, openPreferences, setOpenPreferences, workspace } = useWorkspacePreferncesModel();
 
     const [newWorkspace, setNewWorkspace] = useState({
         name: workspace?.name
@@ -35,11 +36,22 @@ export const WorkspacePreferencesModal = () => {
 
     const { workspaceDeleteMutation } = useDeleteWorkspace(workspaceId);
 
-      const { workspacesDetail } = useGetWorkspaceById(workspaceId);
+    const { workspacesDetail } = useGetWorkspaceById(workspaceId);
+
+    const { confirmation, ConfirmDialog } = useConfirm({title: 'Do you want to delete the workspace? ', message: 'This action can not be done'});
+
+    const { confirmation: updateConfirmation, ConfirmDialog: UpdateConfirmDialog } = useConfirm({title: 'Do you want to update the workspace? ', message: 'This action can not be done'});
+
 
     async function handleFormSubmit(e) {
         try {
             e.preventDefault();
+
+            const ok = await updateConfirmation();
+            console.log('Confirmation received');
+            if(!ok) {
+                return;
+            }
 
             console.log('Signup form submitted ', newWorkspace);
             setEditOpen(false);
@@ -58,6 +70,11 @@ export const WorkspacePreferencesModal = () => {
 
     async function handleDelete () {
         try {
+            const ok = await confirmation();
+            console.log('Confirmation received');
+            if(!ok) {
+                return;
+            }
             await workspaceDeleteMutation();
             queryClient.invalidateQueries('workspaces');
             navigate('/home');
@@ -76,113 +93,117 @@ export const WorkspacePreferencesModal = () => {
     },[workspace]);
 
     return (
-        <Dialog open={openPreferences} onOpenChange={setOpenPreferences} asChild>
-            <DialogContent className='p-0 bg-gray-50 overflow-hidden' >
-                <DialogHeader className='p-4 border-b bg-white'>
-                    <DialogTitle>
-                        {intialValue} Edit Workspace
-                    </DialogTitle>
-                </DialogHeader>
+        <>
+            <ConfirmDialog />
+            <UpdateConfirmDialog />
+            <Dialog open={openPreferences} onOpenChange={setOpenPreferences} asChild>
+                <DialogContent className='p-0 bg-gray-50 overflow-hidden' >
+                    <DialogHeader className='p-4 border-b bg-white'>
+                        <DialogTitle>
+                            {intialValue} Edit Workspace
+                        </DialogTitle>
+                    </DialogHeader>
 
-                <div className='px-4 pb-4 flex flex-col gap-y-2'>
-                    
-                    <Dialog open={editOpen} onOpenChange={setEditOpen} asChild>
-                        <DialogTrigger>
-                            <div
-                                className='px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'
-                            >
+                    <div className='px-4 pb-4 flex flex-col gap-y-2'>
+                        
+                        <Dialog open={editOpen} onOpenChange={setEditOpen} asChild>
+                            <DialogTrigger>
                                 <div
-                                    className='flex items-center justify-between '
+                                    className='px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'
                                 >
-                                    <p
-                                        className='font-semibold text-sm'
+                                    <div
+                                        className='flex items-center justify-between '
                                     >
-                                        Workspace Name
-                                    </p>
+                                        <p
+                                            className='font-semibold text-sm'
+                                        >
+                                            Workspace Name
+                                        </p>
+                                        <p
+                                            className='text-sm font-semibold hover:underline'
+                                        >
+                                            Edit 
+                                        </p>
+                                    </div>
+
                                     <p
-                                        className='text-sm font-semibold hover:underline'
+                                        className='text-sm'
                                     >
-                                        Edit 
+                                        {intialValue}
                                     </p>
+
                                 </div>
+                            </DialogTrigger>
+                            <DialogContent >
+                                <DialogHeader>
+                                    <DialogTitle >
+                                        
+                                        <form className='space-y-4 m-4' onSubmit={handleFormSubmit}>
+                                            <Input
+                                                placeholder='Enter new name'
+                                                onChange={(e) => setNewWorkspace({name: e.target.value})}
+                                                required
+                                                value={newWorkspace.name}
+                                                disabled={isPending}
+                                                type='text'
+                                            />
 
-                                <p
-                                    className='text-sm'
-                                >
-                                    {intialValue}
-                                </p>
-
-                            </div>
-                        </DialogTrigger>
-                        <DialogContent >
-                            <DialogHeader>
-                                <DialogTitle >
-                                    
-                                    <form className='space-y-4 m-4' onSubmit={handleFormSubmit}>
-                                        <Input
-                                            placeholder='Enter new name'
-                                            onChange={(e) => setNewWorkspace({name: e.target.value})}
-                                            required
-                                            value={newWorkspace.name}
-                                            disabled={isPending}
-                                            type='text'
-                                        />
-
-                                        <DialogFooter className='flex' >
-                                        <div>
-                                            <DialogClose>
+                                            <DialogFooter className='flex' >
+                                            <div>
+                                                <DialogClose asChild>
+                                                    <Button
+                                                        variant='destructive'
+                                                        disabled={isPending}
+                                                        size='lg'
+                                                    >
+                                                        Cancel
+                                                    </Button>
+                                                    
+                                                </DialogClose>
+                                            </div>
+                                            <div>
                                                 <Button
-                                                    variant='destructive'
+                                                    className="w-full"
+                                                    variant='default'
                                                     disabled={isPending}
+                                                    type='submit'
+                                                    minlen={3}
+                                                    maxLength={50}
+                                                    autoFocus
                                                     size='lg'
                                                 >
-                                                    Cancel
+                                                    Save
                                                 </Button>
-                                                
-                                            </DialogClose>
-                                        </div>
-                                        <div>
-                                            <Button
-                                                className="w-full"
-                                                variant='default'
-                                                disabled={isPending}
-                                                type='submit'
-                                                minLen={3}
-                                                maxLength={50}
-                                                autoFocus
-                                                size='lg'
-                                            >
-                                                Save
-                                            </Button>
-                                        
-                                        </div>
                                             
-                                    </DialogFooter>
+                                            </div>
+                                                
+                                        </DialogFooter>
+
+                                            
+                                        </form>
 
                                         
-                                    </form>
 
-                                    
+                                    </DialogTitle>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
 
-                                </DialogTitle>
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-
-                     <button
-                        className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'
-                        onClick={handleDelete}
-                     >
-                        <Trash2Icon className='size-5'/>
-                        <p
-                            className='text-sm font-semibold'
+                        <button
+                            className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'
+                            onClick={handleDelete}
                         >
-                            Delete Workspace
-                        </p>
-                    </button>
-                
-                </div>
-            </DialogContent>
-        </Dialog>
+                            <Trash2Icon className='size-5'/>
+                            <p
+                                className='text-sm font-semibold'
+                            >
+                                Delete Workspace
+                            </p>
+                        </button>
+                    
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 };
