@@ -17,6 +17,7 @@ export const Router = () => {
           <Route path='/auth/signin'  element={<Auth><SigninContainer/></Auth>} />
           <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
           <Route path='/workspace/:workspaceId' element={<ProtectedRoute><WorkspaceLayout/></ProtectedRoute>} />
+          <Route path='/workspace/:workspaceId/channels/:channelId' element={<ProtectedRoute>Channels</ProtectedRoute>} />
           <Route path='/forget-password' element={<ForgotPassword />} />
           <Route path='/reset-password/:token' element={<ResetPassword/>} />
           <Route path='/*' element={<Notfound/>} />

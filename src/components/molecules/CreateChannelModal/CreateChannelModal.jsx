@@ -3,16 +3,27 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useAddChannelToWorkspace } from '@/hooks/apis/workspaces/useAddChannelToWorkspace';
 import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 
 export const CreateChannelModal = () => {
+
+    const { addChannelToWorkspaceMutation } = useAddChannelToWorkspace();
+
+    const { workspaceIdContext } = useCurrentWorkspace();
+
     const { openCreateChannelModal, setOpenCreateChannelModal } = useCreateChannelModal();
 
     const [ channelName, setChannelName ] = useState();
 
-    function handleFormSubmit (e) {
+    async function handleFormSubmit (e) {
         e.preventDefault();
-
+        await addChannelToWorkspaceMutation({
+            workspaceId: workspaceIdContext,
+            channelName
+        });
+        setOpenCreateChannelModal(false);
 
     }
 
@@ -31,15 +42,15 @@ export const CreateChannelModal = () => {
                         onChange={(e) => setChannelName(e.target.value)}
                         value={channelName}
                         disabled={false}
-                        minLen={3}
-                        maxLen={15}
+                        minLength={3}
+                        maxLength={15}
                         type='text'
                     />
 
                     <div className='flex justify-end mt-4'>
                         <Button
                             type='submit'
-                            variant='primary'
+                            variant='default'
                             size='lg'
                         >
                             Create
