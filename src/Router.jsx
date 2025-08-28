@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import { Home } from './pages/Home/Home';
 import { Notfound } from './pages/Notfound/Notfound';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
+import { JoinPage } from './pages/Workspace/JoinPage';
 import { WorkspaceLayout } from './pages/Workspace/Layout';
 
 export const Router = () => {
@@ -19,6 +20,7 @@ export const Router = () => {
           <Route path='/workspace/:workspaceId' element={<ProtectedRoute><WorkspaceLayout/></ProtectedRoute>} />
           <Route path='/workspace/:workspaceId/channels/:channelId' element={<ProtectedRoute>Channels</ProtectedRoute>} />
           <Route path='/forget-password' element={<ForgotPassword />} />
+          <Route path='/workspaces/join/:workspaceId' element={<ProtectedRoute><JoinPage /></ProtectedRoute>} />
           <Route path='/reset-password/:token' element={<ResetPassword/>} />
           <Route path='/*' element={<Notfound/>} />
         </Routes>

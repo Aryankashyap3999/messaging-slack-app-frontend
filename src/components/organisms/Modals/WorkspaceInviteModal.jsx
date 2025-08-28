@@ -5,12 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useResetJoinCode } from '@/hooks/apis/workspaces/useResetJoinCode';
 
+
 export const WorkspaceInviteModal = ({ openInviteModal, setOpenInviteModal, workspaceName, joinCode, workspaceId }) => {
 
     const { resetJoinCodeMutation } = useResetJoinCode(workspaceId);
 
     async function handleCopy () {
-        const inviteLink = `${window.location.origin}/join/${joinCode}`;
+        const inviteLink = `${joinCode}`;
         await navigator.clipboard.writeText(inviteLink);
         toast.info('Link Copied');
     }
@@ -49,6 +50,11 @@ export const WorkspaceInviteModal = ({ openInviteModal, setOpenInviteModal, work
                         Copy Link
                         <CopyIcon className='size-4 ml-2' />
                     </Button>
+
+                    <a href={`/workspaces/join/${workspaceId}`} target="_blank"  rel='noreferrer' className='text-blue-500'>
+                        Redirect to Join Page
+                    </a>
+
 
                 </div>
 
