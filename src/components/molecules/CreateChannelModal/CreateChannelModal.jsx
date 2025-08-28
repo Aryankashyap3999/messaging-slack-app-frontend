@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,8 @@ import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 export const CreateChannelModal = () => {
 
     const { addChannelToWorkspaceMutation } = useAddChannelToWorkspace();
+
+    const queryClient = useQueryClient();
 
     const { workspaceIdContext } = useCurrentWorkspace();
 
@@ -24,6 +27,7 @@ export const CreateChannelModal = () => {
             channelName
         });
         setOpenCreateChannelModal(false);
+        queryClient.invalidateQueries(`workspaceId-${workspaceIdContext}`);
 
     }
 
