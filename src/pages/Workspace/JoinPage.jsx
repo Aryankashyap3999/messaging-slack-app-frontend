@@ -1,15 +1,28 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import VerificationInput from 'react-verification-input';
 
 import { Button } from '@/components/ui/button';
+import { useJoinWorkspace } from '@/hooks/apis/workspaces/useJoinWorkspace';
 
 
 export const JoinPage = () => {
 
     const { workspaceId } = useParams(); 
 
-    async function addMemberToWorkspace () {
+    const { joinWorkspaceMutation } = useJoinWorkspace(workspaceId);
+
+    const navigate = useNavigate();
+
+
+    async function addMemberToWorkspace (joinCode) {
         console.log('Adding memeber to workspace');
+        console.log('JoinCode is ', joinCode);
+        try {
+          await joinWorkspaceMutation({joinCode});
+          navigate(`/workspace/${workspaceId}`);
+        } catch (error) {
+          console.log('Error while adding memeber to workspace', error);
+        }
     }
 
   return (
@@ -30,7 +43,7 @@ export const JoinPage = () => {
             </p>
 
             <VerificationInput
-                onComplete={addMemberToWorkspace}
+                onComplete={(joinCode) =>addMemberToWorkspace(joinCode)} 
 
                 length={6}
                 classNames={{
