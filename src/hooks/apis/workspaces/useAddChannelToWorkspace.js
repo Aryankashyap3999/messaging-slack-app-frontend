@@ -9,7 +9,7 @@ export const useAddChannelToWorkspace = () => {
     const { auth } = useAuth();
 
     const { isPending, isSuccess, mutateAsync: addChannelToWorkspaceMutation } = useMutation({
-        mutationFn: ({workspaceId, channelName}) => addChannelToWorkspaceRequest({ workspaceId, channelName, token: auth?.token }),
+        mutationFn: ({workspaceId, channelName}) => addChannelToWorkspaceRequest({ workspaceId: workspaceId._id, channelName, token: auth?.token }),
         onSuccess: (data) => {
             console.log('Successfully added channel to workspace', data);
             toast.success('Successfully added channel to workspace');

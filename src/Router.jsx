@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { ProtectedRoute } from './components/molecules/ProtectedRoute/ProtectedRoute';
+import { Channel } from './components/molecules/Workspace/channel/channel';
 import { SigninContainer } from './components/organisms/Auth/SigninContainer';
 import { SignupContainer } from './components/organisms/Auth/signupContainer';
 import { Auth } from './pages/Auth/Auth';
@@ -18,7 +19,7 @@ export const Router = () => {
           <Route path='/auth/signin'  element={<Auth><SigninContainer/></Auth>} />
           <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
           <Route path='/workspace/:workspaceId' element={<ProtectedRoute><WorkspaceLayout/></ProtectedRoute>} />
-          <Route path='/workspace/:workspaceId/channels/:channelId' element={<ProtectedRoute>Channels</ProtectedRoute>} />
+          <Route path='/workspace/:workspaceId/channels/:channelId' element={<ProtectedRoute><WorkspaceLayout><Channel /></WorkspaceLayout></ProtectedRoute>} />
           <Route path='/forget-password' element={<ForgotPassword />} />
           <Route path='/workspaces/join/:workspaceId' element={<ProtectedRoute><JoinPage /></ProtectedRoute>} />
           <Route path='/reset-password/:token' element={<ResetPassword/>} />

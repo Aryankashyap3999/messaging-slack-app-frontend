@@ -85,6 +85,7 @@ export const updateWorkspaceRequest = async ({ workspaceId, name, token }) => {
 };
 
 export const addChannelToWorkspaceRequest = async ({ workspaceId, channelName, token}) => {
+  console.log('WOrkspace id ', workspaceId);
   try {
     const response = await axios.put(`/workspaces/${workspaceId}/channels`, {
       channelName

@@ -167,7 +167,7 @@ export const WorkspacePreferencesModal = () => {
                                                     variant='default'
                                                     disabled={isPending}
                                                     type='submit'
-                                                    minlength={3}
+                                                    minlen={3}
                                                     maxLength={50}
                                                     autoFocus
                                                     size='lg'

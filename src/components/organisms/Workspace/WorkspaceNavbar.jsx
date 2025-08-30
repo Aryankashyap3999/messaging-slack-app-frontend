@@ -17,7 +17,7 @@ export const WorkspaceNavbar = () => {
 
     useEffect(() => {
         if(workspacesDetail) {
-            setWorkspaceIdContext(workspacesDetail._id);
+            setWorkspaceIdContext(workspacesDetail);
         }
     }, [workspacesDetail, setWorkspaceIdContext]);
 

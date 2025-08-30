@@ -27,7 +27,7 @@ export const CreateChannelModal = () => {
             channelName
         });
         setOpenCreateChannelModal(false);
-        queryClient.invalidateQueries(`workspaceId-${workspaceIdContext}`);
+        queryClient.invalidateQueries(`workspaceId-${workspaceIdContext._id}`);
 
     }
 
