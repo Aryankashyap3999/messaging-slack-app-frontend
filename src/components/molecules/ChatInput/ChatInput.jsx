@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 
+import { getPreginedUrl, uploadImageToAWSpresignedUrl } from '@/apis/s3';
 // import { getPreginedUrl, uploadImageToAWSpresignedUrl } from '@/apis/s3';
 import { Editor } from '@/components/atoms/Editor/Edtior';
 import { useAuth } from '@/hooks/context/useAuth';
@@ -19,17 +20,17 @@ export const ChatInput = () => {
         if(image) {
             const preSignedUrl = await queryClient.fetchQuery({
                 queryKey: ['getPresignedUrl'],
-                // queryFn: () => getPreginedUrl({ token: auth?.token }),
+                queryFn: () => getPreginedUrl({ token: auth?.token }),
             });
 
             console.log('Presigned url', preSignedUrl);
 
-            // const responseAws = await uploadImageToAWSpresignedUrl({
-            //     url: preSignedUrl,
-            //     file: image
-            // });
-            // console.log('file upload success', responseAws);
-            // fileUrl = preSignedUrl.split('?')[0];
+            const responseAws = await uploadImageToAWSpresignedUrl({
+                url: preSignedUrl,
+                file: image
+            });
+            console.log('file upload success', responseAws);
+            fileUrl = preSignedUrl.split('?')[0];
         }
         console.log('NewMessage event is triggered');
         socket?.emit('NewMessage', {
